@@ -95,9 +95,8 @@ class Api {
 };
 
 export const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-28',
+  url: 'https://api.avshchipakina.nomoredomains.rocks',
   headers: {
-    authorization: 'd5f4b13b-5ee9-4277-b0be-f215cd379279',
     'Content-Type': 'application/json'
   }
 });
