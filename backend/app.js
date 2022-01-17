@@ -7,6 +7,7 @@ const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+require('dotenv').config();
 const cors = require('./middlewares/cors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -22,6 +23,12 @@ app.use(bodyParser.json());
 app.use(cors);
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
