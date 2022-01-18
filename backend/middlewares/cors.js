@@ -2,6 +2,8 @@
 const allowedCors = [
   'https://avshchipakina.nomoredomains.rocks',
   'http://avshchipakina.nomoredomains.rocks',
+  'http://api.avshchipakina.nomoredomains.rocks',
+  'https://avshchipakina.nomoredomains.rocks',
   'localhost:3000',
 ];
 

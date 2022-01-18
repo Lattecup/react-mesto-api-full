@@ -33,7 +33,6 @@ function App() {
   const [email, setEmail] = React.useState('');
   const history = useHistory();
 
-  /*
   React.useEffect(() => {
     api.getInitialCards()
       .then((data) => {
@@ -43,33 +42,7 @@ function App() {
         console.log(err);
       });
   }, []);
-  */
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      api.getInitialCards()
-        .then((data) => {
-          setCards(data)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [loggedIn]);
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      api.getUserInfo()
-        .then((data) => {
-          setCurrentUser(data)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [loggedIn]);
   
-/*
   React.useEffect(() => {
     api.getUserInfo()
       .then((data) => {
@@ -79,7 +52,7 @@ function App() {
         console.log(err);
       });
   }, []);
-  */
+ 
 
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
