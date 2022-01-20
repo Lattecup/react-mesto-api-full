@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { errors, celebrate, Joi } = require('celebrate');
@@ -7,7 +8,6 @@ const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-require('dotenv').config();
 const cors = require('./middlewares/cors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
