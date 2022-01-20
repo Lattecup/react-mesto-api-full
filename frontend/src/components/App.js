@@ -72,22 +72,17 @@ function App() {
   */
 
   React.useEffect(() => {
-    if (loggedIn === true) {
-      api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    if (loggedIn) {
+      const promises = [api.getUserInfo(), api.getInitialCards()]
 
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      Promise.all(promises)
+        .then(([userInfo, initialCards]) => {
+          setCurrentUser(userInfo);
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [loggedIn]); 
 
