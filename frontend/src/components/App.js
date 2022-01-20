@@ -55,7 +55,7 @@ function App() {
       });
     }
   }, []);
-  */
+  
 
   function handleSetData() {
     const userInfo = api.getUserInfo();
@@ -68,7 +68,26 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }; 
+  };
+  */
+
+  function handleSetData() {
+    api.getUserInfo()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+    api.getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
 
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
@@ -217,7 +236,7 @@ function App() {
         auth.checkToken(token)
         .then((res) => {
           if (res) {
-            setEmail(res.user.email);
+            setEmail(res.email);
             setLoggedIn(true);
             history.push('/');
           };
