@@ -55,25 +55,10 @@ function App() {
       });
     }
   }, []);
-  
-
-  function handleSetData() {
-    const userInfo = api.getUserInfo();
-    const initialCards = api.getInitialCards();
-    Promise.all([userInfo, initialCards])
-      .then((data) => {
-        setCurrentUser(data[0].user);
-        setCards(data[1].data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   */
 
-  React.useEffect(() => {
-    if (loggedIn) {
-      const promises = [api.getUserInfo(), api.getInitialCards()]
+  function handleSetData() {
+    const promises = [api.getUserInfo(), api.getInitialCards()]
 
       Promise.all(promises)
         .then(([userInfo, initialCards]) => {
@@ -83,9 +68,8 @@ function App() {
         .catch((err) => {
           console.log(err);
         });
-    }
-  }, [loggedIn]); 
-
+  };
+  
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
     api.postCard(data)
@@ -218,7 +202,7 @@ function App() {
       localStorage.setItem('jwt', res.token);
       setLoggedIn(true);
       history.push('/');
-      //handleSetData();
+      handleSetData();
       api.setJwt(res.token);
     })
     .catch((err) => {
