@@ -33,41 +33,17 @@ function App() {
   const [email, setEmail] = React.useState('');
   const history = useHistory();
 
-  /*
   React.useEffect(() => {
     api.getInitialCards()
       .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }, []);
-  
-  React.useEffect(() => {
-    if (loggedIn === true) {
-      api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data)
+        setCards(data)
       })
       .catch((err) => {
         console.log(err);
       });
-    }
   }, []);
-  */
 
-  function handleSetInitialCards() {
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  function handleSetUserInfo() {
+  React.useEffect(() => {
     api.getUserInfo()
       .then((data) => {
         setCurrentUser(data)
@@ -75,23 +51,8 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, []);
 
-  /*
-  function handleSetData() {
-    const promises = [api.getUserInfo(), api.getInitialCards()]
-
-      Promise.all(promises)
-        .then((data) => {
-          setCurrentUser(data);
-          setCards(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  };
-  */
-  
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
     api.postCard(data)
@@ -108,8 +69,7 @@ function App() {
   };
 
   function handleCardLike(card) {
-    //const isLiked = card.likes.some(i => i._id === currentUser._id);
-    const isLiked = card.likes.some(i => i === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -222,12 +182,9 @@ function App() {
   function handleAuthorization(email, password) {
     auth.authorize(email, password)
     .then((res) => {
-      localStorage.setItem('jwt', res.token);
       setLoggedIn(true);
       history.push('/');
-      //handleSetData();
-      handleSetInitialCards();
-      handleSetUserInfo();
+      localStorage.setItem('jwt', res.token);
       api.setJwt(res.token);
     })
     .catch((err) => {
@@ -237,12 +194,12 @@ function App() {
 
   React.useEffect(() => {
     function handleTokenCheck() {
-      const token = localStorage.getItem('jwt');
+      const token = localStorage.getItem('token');
       if (token) {
         auth.checkToken(token)
         .then((res) => {
           if (res) {
-            setEmail(res.email);
+            setEmail(res.data.email);
             setLoggedIn(true);
             history.push('/');
           };
