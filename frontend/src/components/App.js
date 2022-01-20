@@ -71,8 +71,9 @@ function App() {
   };
   */
 
-  function handleSetData() {
-    api.getUserInfo()
+  React.useEffect(() => {
+    if (loggedIn === true) {
+      api.getUserInfo()
       .then((data) => {
         setCurrentUser(data)
       })
@@ -87,7 +88,8 @@ function App() {
       .catch((err) => {
         console.log(err);
       })
-  };
+    }
+  }, [loggedIn]); 
 
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
@@ -221,7 +223,7 @@ function App() {
       localStorage.setItem('jwt', res.token);
       setLoggedIn(true);
       history.push('/');
-      handleSetData();
+      //handleSetData();
       api.setJwt(res.token);
     })
     .catch((err) => {
