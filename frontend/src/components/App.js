@@ -34,23 +34,27 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (loggedIn === true) {
+      api.getInitialCards()
+        .then((data) => {
+          setCards(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    };
   }, []);
   
   React.useEffect(() => {
-    api.getUserInfo()
+    if (loggedIn === true) {
+      api.getUserInfo()
       .then((data) => {
         setCurrentUser(data)
       })
       .catch((err) => {
         console.log(err);
       });
+    }
   }, []);
  
 
@@ -185,7 +189,7 @@ function App() {
     .then((res) => {
       setLoggedIn(true);
       history.push('/');
-      localStorage.setItem('token', res.token);
+      localStorage.setItem('jwt', res.token);
     })
     .catch((err) => {
       console.log(err);
@@ -194,12 +198,13 @@ function App() {
 
   React.useEffect(() => {
     function handleTokenCheck() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('jwt');
       if (token) {
         auth.checkToken(token)
         .then((res) => {
-          if (res) {
-            setEmail(res.user.email);
+          if (data) {
+            setEmail(data.email);
+            setCurrentUser(data);
             setLoggedIn(true);
             history.push('/');
           };
@@ -213,7 +218,7 @@ function App() {
   }, [history]);
 
   function handleSignOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     history.push('/sign-in');
     setLoggedIn(false);
   };
