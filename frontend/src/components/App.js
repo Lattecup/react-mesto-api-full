@@ -199,7 +199,7 @@ function App() {
         auth.checkToken(token)
         .then((res) => {
           if (res) {
-            setEmail(res.data.email);
+            setEmail(res.user.email);
             setLoggedIn(true);
             history.push('/');
           };
