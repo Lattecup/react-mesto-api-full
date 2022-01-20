@@ -57,6 +57,27 @@ function App() {
   }, []);
   */
 
+  function handleSetInitialCards() {
+    api.getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  function handleSetUserInfo() {
+    api.getUserInfo()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  /*
   function handleSetData() {
     const promises = [api.getUserInfo(), api.getInitialCards()]
 
@@ -69,6 +90,7 @@ function App() {
           console.log(err);
         });
   };
+  */
   
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
@@ -86,7 +108,8 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    //const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -202,7 +225,9 @@ function App() {
       localStorage.setItem('jwt', res.token);
       setLoggedIn(true);
       history.push('/');
-      handleSetData();
+      //handleSetData();
+      handleSetInitialCards();
+      handleSetUserInfo();
       api.setJwt(res.token);
     })
     .catch((err) => {
