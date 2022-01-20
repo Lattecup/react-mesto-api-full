@@ -61,9 +61,9 @@ function App() {
     const promises = [api.getUserInfo(), api.getInitialCards()]
 
       Promise.all(promises)
-        .then(([userInfo, initialCards]) => {
-          setCurrentUser(userInfo);
-          setCards(initialCards);
+        .then((data) => {
+          setCurrentUser(data);
+          setCards(data);
         })
         .catch((err) => {
           console.log(err);
