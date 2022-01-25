@@ -1,10 +1,11 @@
-/*
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
   'https://avshchipakina.nomoredomains.rocks',
   'http://avshchipakina.nomoredomains.rocks',
+  'https://api.avshchipakina.nomoredomains.rocks',
+  'http://api.avshchipakina.nomoredomains.rocks',
   'localhost:3000',
 ];
 
@@ -31,4 +32,3 @@ module.exports = (req, res, next) => {
 
   next();
 };
-*/
