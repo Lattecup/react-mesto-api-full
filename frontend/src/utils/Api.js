@@ -12,29 +12,17 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   };
 
-  setJwt(jwt) {
-    this._jwt = jwt;
-  };
-
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(this._url + '/users/me', {
-      credentials: 'include',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  setUserInfo(data) {
+  setUserInfo(data, token) {
     return fetch(this._url + '/users/me', {
-      credentials: 'include',
       method: 'PATCH',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      },
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -43,25 +31,17 @@ class Api {
     .then(this._handleResponse);
   };
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(this._url + '/cards', {
-      credentials: 'include',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  postCard(data) {
+  postCard(data, token) {
     return fetch(this._url + '/cards', {
-      credentials: 'include',
       method: 'POST',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      },
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -70,62 +50,42 @@ class Api {
     .then(this._handleResponse);
   };
 
-  removeCard(id) {
+  removeCard(id, token) {
     return fetch(this._url + `/cards/${id}`, {
-      credentials: 'include',
       method: 'DELETE',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  changeLikeCardStatus(id, isLiked) {
-    return fetch(this._url + `/cards/likes/${id}`, {
-      credentials: 'include',
+  changeLikeCardStatus(id, isLiked, token) {
+    return fetch(this._url + `/cards/${id}/likes`, {
       method: `${isLiked ? 'PUT' : 'DELETE'}`,
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  setLike(id) {
-    return fetch(this._url + `/cards/likes/${id}`, {
-      credentials: 'include',
+  setLike(id, token) {
+    return fetch(this._url + `/cards/${id}/likes`, {
       method: 'PUT',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  removeLike(id) {
-    return fetch(this._url + `/cards/likes/${id}`, {
-      credentials: 'include',
+  removeLike(id, token) {
+    return fetch(this._url + `/cards/${id}/likes`, {
       method: 'DELETE',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      }
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     })
     .then(this._handleResponse);
   };
 
-  changeAvatar(data) {
+  changeAvatar(data, token) {
     return fetch(this._url + '/users/me/avatar', {
-      credentials: 'include',
       method: 'PATCH',
-      headers: {
-        ...this._headers,
-        token: this._jwt || localStorage.getItem('jwt'),
-      },
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         avatar: data.avatar,
       })
@@ -136,7 +96,6 @@ class Api {
 
 export const api = new Api({
   url: 'https://api.avshchipakina.nomoredomains.rocks',
-  credentials: 'include',
   headers: {
     'Content-Type': 'application/json'
   }

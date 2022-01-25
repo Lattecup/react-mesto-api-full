@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const mongoose = require('mongoose');
 const { login, createUser } = require('./controllers/users');
@@ -19,6 +20,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use(cors);
 
@@ -37,7 +39,7 @@ app.post('/sign-in', celebrate({
   }),
 }), login);
 
-app.use('/sign-up', celebrate({
+app.post('/sign-up', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),

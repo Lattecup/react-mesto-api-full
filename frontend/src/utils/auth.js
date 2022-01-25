@@ -9,8 +9,7 @@ function handleResponse(res) {
 };
 
 export const register = (email, password) => {
-  return fetch(`${BASE_URL}/sign-up`, {
-    credentials: 'include',
+  return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,8 +20,7 @@ export const register = (email, password) => {
 };
 
 export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/sign-in`, {
-    credentials: 'include',
+  return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,11 +32,10 @@ export const authorize = (email, password) => {
 
 export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
-    credentials: 'include',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      token: `${token}`,
+      Authorization : `Bearer ${token}`,
     },
   })
   .then(handleResponse);
