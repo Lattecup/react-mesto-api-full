@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.avshchipakina.nomoredomains.rocks';
+const BASE_URL = 'https://api.avshchipakina.nomoredomains.rocks';
 
 function handleResponse(res) {
   if (res.ok) {

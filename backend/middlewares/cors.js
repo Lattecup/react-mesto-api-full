@@ -1,3 +1,5 @@
+const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
   'https://avshchipakina.nomoredomains.rocks',
@@ -15,7 +17,6 @@ module.exports = (req, res, next) => {
   }
 
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE'; // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
   const requestHeaders = req.headers['access-control-request-headers']; // сохраняем список заголовков исходного запроса
 
   if (method === 'OPTIONS') {
