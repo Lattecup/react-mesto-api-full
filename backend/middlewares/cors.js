@@ -1,3 +1,4 @@
+/*
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
 // Массив доменов, с которых разрешены кросс-доменные запросы
@@ -17,7 +18,7 @@ module.exports = (req, res, next) => {
   }
 
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
-  const requestHeaders = req.headers['access-control-request-headers']; // сохраняем список заголовков исходного запроса
+  const requestHeaders = req.headers['access-control-request-headers'];
 
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
@@ -30,3 +31,4 @@ module.exports = (req, res, next) => {
 
   next();
 };
+*/
