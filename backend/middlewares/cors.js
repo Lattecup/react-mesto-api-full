@@ -2,8 +2,6 @@
 const allowedCors = [
   'https://avshchipakina.nomoredomains.rocks',
   'http://avshchipakina.nomoredomains.rocks',
-  'http://api.avshchipakina.nomoredomains.rocks',
-  'https://api.avshchipakina.nomoredomains.rocks',
   'localhost:3000',
 ];
 
@@ -14,7 +12,6 @@ module.exports = (req, res, next) => {
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
   }
 
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
