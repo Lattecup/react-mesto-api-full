@@ -185,7 +185,7 @@ function App() {
     .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
-        setEmail(email);
+        setDataSetting();
         history.push('/');
     })
     .catch((err) => {
