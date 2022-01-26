@@ -194,35 +194,33 @@ function App() {
   };
 
   React.useEffect(() => {
-    function handleTokenCheck() {
-      const token = localStorage.getItem('jwt');
-      if (token) {
-        auth.checkToken()
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      auth.checkToken()
         .then((res) => {
           if (res) {
             setEmail(res.email);
             setLoggedIn(true);
             history.push('/');
-          };
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      };
-    };
-    handleTokenCheck();
-
-    if (loggedIn) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
-        .then(([userInfo, cardsInfo]) => {
-          setCurrentUser(userInfo);
-          setCards(cardsInfo.reverse());
+            setDataSetting();
+          }
         })
         .catch((err) => {
           console.log(err);
         })
     }
-  }, [history, loggedIn]);
+  }, [history]);
+
+  function setDataSetting() {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userInfo, cardsInfo]) => {
+        setCurrentUser(userInfo);
+        setCards(cardsInfo.reverse());
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
 
   function handleSignOut() {
     localStorage.removeItem('jwt');
