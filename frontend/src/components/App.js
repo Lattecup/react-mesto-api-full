@@ -197,7 +197,7 @@ function App() {
     function handleTokenCheck() {
       const token = localStorage.getItem('jwt');
       if (token) {
-        auth.checkToken(token)
+        auth.checkToken()
         .then((res) => {
           if (res) {
             setEmail(res.email);
