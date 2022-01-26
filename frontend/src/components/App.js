@@ -57,9 +57,7 @@ function App() {
 
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
-    const token = localStorage.getItem("token");
-
-    api.postCard(data, token)
+    api.postCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups()
@@ -73,10 +71,8 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const token = localStorage.getItem("token");
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    api.changeLikeCardStatus(card._id, !isLiked, token)
+    api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
       })
@@ -87,9 +83,7 @@ function App() {
 
   function handleCardDelete(card) {
     setIsLoadingButtontext(true);
-    const token = localStorage.getItem("token");
-
-    api.removeCard(card._id, token)
+    api.removeCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id))
         closeAllPopups()
@@ -104,9 +98,7 @@ function App() {
 
   function handleUpdateUser(data) {
     setIsLoadingButtontext(true);
-    const token = localStorage.getItem("token");
-
-    api.setUserInfo(data, token)
+    api.setUserInfo(data)
       .then((data) => {
         setCurrentUser(data)
         closeAllPopups()
@@ -121,9 +113,7 @@ function App() {
 
   function handleUpdateAvatar(data) {
     setIsLoadingButtontext(true);
-    const token = localStorage.getItem("token");
-
-    api.changeAvatar(data, token)
+    api.changeAvatar(data)
       .then((data) => {
         setCurrentUser(data)
         closeAllPopups()
@@ -193,12 +183,10 @@ function App() {
   function handleAuthorization(email, password) {
     auth.authorize(email, password)
     .then((res) => {
-      if (res.token) {
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setEmail(email);
         history.push('/');
-      }
     })
     .catch((err) => {
       console.log(err);
@@ -207,7 +195,7 @@ function App() {
 
   React.useEffect(() => {
     function handleTokenCheck() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('jwt');
       if (token) {
         auth.checkToken(token)
         .then((res) => {
@@ -225,30 +213,20 @@ function App() {
     handleTokenCheck();
 
     if (loggedIn) {
-      const token = localStorage.getItem('token');
-
-      api.getUserInfo(token)
-        .then((data) => {
-          setCurrentUser(data);
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([userInfo, cardsInfo]) => {
+          setCurrentUser(userInfo);
+          setCards(cardsInfo.reverse());
         })
         .catch((err) => {
           console.log(err);
-        });
-
-      api.getInitialCards(token)
-        .then((data) => {
-          setCards(data);
         })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   }, [history, loggedIn]);
 
   function handleSignOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     setLoggedIn(false);
-    setCurrentUser({});
     history.push('/sign-in');
   };
 
