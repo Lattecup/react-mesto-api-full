@@ -33,7 +33,6 @@ function App() {
   const [email, setEmail] = React.useState('');
   const history = useHistory();
 
-  /*
   React.useEffect(() => {
     api.getInitialCards()
       .then((data) => {
@@ -53,7 +52,6 @@ function App() {
         console.log(err);
       });
   }, []);
-  */
 
   function handleAddPlaceSubmit(data) {
     setIsLoadingButtontext(true);
@@ -185,7 +183,7 @@ function App() {
     .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
-        setDataSetting();
+        setEmail(email);
         history.push('/');
     })
     .catch((err) => {
@@ -202,7 +200,6 @@ function App() {
             setEmail(res.email);
             setLoggedIn(true);
             history.push('/');
-            setDataSetting();
           }
         })
         .catch((err) => {
@@ -210,17 +207,6 @@ function App() {
         })
     }
   }, [history]);
-
-  function setDataSetting() {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userInfo, cardsInfo]) => {
-        setCurrentUser(userInfo);
-        setCards(cardsInfo.reverse());
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  };
 
   function handleSignOut() {
     localStorage.removeItem('jwt');
