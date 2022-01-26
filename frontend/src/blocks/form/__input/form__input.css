@@ -1,0 +1,30 @@
+.form__input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  padding: 26px 0 17px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.form__input::placeholder {
+  color: #C4C4C4;
+}
+
+.form__input:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 620px) {
+  .form__input {
+    padding: 38px 0 9px;
+  }
+}
