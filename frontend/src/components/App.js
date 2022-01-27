@@ -38,8 +38,8 @@ function App() {
     const initialCards = api.getInitialCards();
     Promise.all([userInfo, initialCards])
       .then((data) => {
-        setCurrentUser(data.user);
-        setCards(data.data);
+        setCurrentUser(data[0].user);
+        setCards(data[1].data);
       })
       .catch((err) => {
         console.log(err);
