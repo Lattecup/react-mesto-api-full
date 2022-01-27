@@ -34,10 +34,12 @@ function App() {
   const history = useHistory();
   
   function getAllData() {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userInfo, initialCards]) => {
-        setCurrentUser(userInfo.data.user);
-        setCards(initialCards.data);
+    const userInfo = api.getUserInfo();
+    const initialCards = api.getInitialCards();
+    Promise.all([userInfo, initialCards])
+      .then((data) => {
+        setCurrentUser(data.user);
+        setCards(data.data);
       })
       .catch((err) => {
         console.log(err);
