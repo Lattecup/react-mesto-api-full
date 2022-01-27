@@ -36,8 +36,8 @@ function App() {
   function getAllData() {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userInfo, initialCards]) => {
-        setCurrentUser(userInfo);
-        setCards(initialCards);
+        setCurrentUser(userInfo.user);
+        setCards(initialCards.data);
       })
       .catch((err) => {
         console.log(err);
@@ -48,7 +48,7 @@ function App() {
     setIsLoadingButtontext(true);
     api.postCard(data)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups()
       })
       .catch((err) => {
@@ -64,7 +64,7 @@ function App() {
 
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+        setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c))
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +90,7 @@ function App() {
     setIsLoadingButtontext(true);
     api.setUserInfo(data)
       .then((data) => {
-        setCurrentUser(data)
+        setCurrentUser(data.data)
         closeAllPopups()
       })
       .catch((err) => {
@@ -105,7 +105,7 @@ function App() {
     setIsLoadingButtontext(true);
     api.changeAvatar(data)
       .then((data) => {
-        setCurrentUser(data)
+        setCurrentUser(data.data)
         closeAllPopups()
       })
       .catch((err) => {
