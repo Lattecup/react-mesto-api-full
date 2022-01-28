@@ -10,17 +10,17 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.status(200).send(users))
     .catch(next);
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
+  User.findById(req.params.userId ? req.params.userId : req.user._id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -33,7 +33,7 @@ module.exports.getUserById = (req, res, next) => {
 module.exports.getMyProfile = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -55,7 +55,7 @@ module.exports.createUser = (req, res, next) => {
         name, about, avatar, email, password: hash,
       })
         .then(() => res.status(200).send({
-          data: {
+          user: {
             name, about, avatar, email,
           },
         }));
@@ -83,7 +83,7 @@ module.exports.updateUserProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -108,7 +108,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
