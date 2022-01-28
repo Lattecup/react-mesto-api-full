@@ -10,11 +10,11 @@ router.get('/cards', getAllCards);
 router.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().custom((v) => {
-      if (!isURL(v)) {
+    link: Joi.string().required().custom((value) => {
+      if (!isURL(value)) {
         throw new CelebrateError('Неправильный формат ссылки');
       }
-      return v;
+      return value;
     }),
   }),
 }), createCard);
