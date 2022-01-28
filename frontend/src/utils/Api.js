@@ -48,8 +48,8 @@ class Api {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify({
-        name: data.name,
         link: data.link,
+        name: data.name,
       }),
       headers: this._headers,
     })
