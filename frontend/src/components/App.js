@@ -37,7 +37,7 @@ function App() {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userInfo, initialCards]) => {
         setCurrentUser(userInfo);
-        setCards(initialCards);
+        setCards(initialCards.cards);
       })
       .catch((err) => {
         console.log(err);
@@ -48,7 +48,7 @@ function App() {
     setIsLoadingButtontext(true);
     api.postCard(data)
       .then((newCard) => {
-        setCards([newCard.data, ...cards]);
+        setCards([newCard.card, ...cards]);
         closeAllPopups()
       })
       .catch((err) => {
