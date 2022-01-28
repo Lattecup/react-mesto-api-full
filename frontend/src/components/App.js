@@ -48,7 +48,7 @@ function App() {
     setIsLoadingButtontext(true);
     api.postCard(data)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups()
       })
       .catch((err) => {
