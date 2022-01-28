@@ -10,7 +10,7 @@ router.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     link:
-      Joi.string().pattern(/(http|https):\/\/(.www)?[a-zA-Z0-9-.]+\.[a-zA-Z]{2,}([a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+)*#*$/),
+      Joi.string().pattern(/(http:\/\/|https:\/\/)(www)*.([\w]{3})[a-z0-9\-._~:?#[\]@!$&'()*+,;=]+#*[^а-я]/),
   }),
 }), createCard);
 
