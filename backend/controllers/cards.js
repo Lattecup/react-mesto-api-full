@@ -12,12 +12,8 @@ module.exports.getAllCards = (req, res, next) => {
 module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
-  // eslint-disable-next-line no-console
-  console.log(name, link, owner);
 
-  Card.create({ name, link, owner });
-  // eslint-disable-next-line no-console
-  console.log(name, link, owner)
+  Card.create({ name, link, owner })
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
